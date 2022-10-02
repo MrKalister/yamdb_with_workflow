@@ -1,14 +1,13 @@
-from django.shortcuts import get_object_or_404
-from django_filters.rest_framework import DjangoFilterBackend
-from rest_framework import filters, status, viewsets, mixins
-from rest_framework.pagination import PageNumberPagination
-from rest_framework.response import Response
-
 from api.filters import TitleFilter
 from api.permissions import AdminUnsafeOnly, IsOwnerOrModerOrAdmin
 from api.serializers import (CategorySerializer, CommentSerializer,
                              GenreSerializer, ReviewSerializer,
                              TitleCreateUpdateSerializer, TitleSerializer)
+from django.shortcuts import get_object_or_404
+from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework import filters, mixins, status, viewsets
+from rest_framework.pagination import PageNumberPagination
+from rest_framework.response import Response
 from reviews.models import Category, Genre, Review, Title
 
 

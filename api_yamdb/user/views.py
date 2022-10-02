@@ -1,18 +1,18 @@
 import uuid
 
+from api.permissions import AdminOnlyExceptUpdateDestroy
 from django.core.exceptions import ObjectDoesNotExist
 from django.core.mail import send_mail
 from django.shortcuts import get_object_or_404
-from rest_framework import filters, permissions, status, viewsets, mixins
+from rest_framework import filters, mixins, permissions, status, viewsets
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.response import Response
 from rest_framework_simplejwt.tokens import AccessToken
 
-from api.permissions import AdminOnlyExceptUpdateDestroy
+from .models import User
 from .serializers import (UserSerializer, UserSignUpSerializer,
                           UserTokenObtainSerializer)
-from .models import User
 
 
 class UsersViewSet(mixins.ListModelMixin, mixins.RetrieveModelMixin,

@@ -3,7 +3,6 @@ from datetime import datetime as dt
 from django.conf import settings
 from django.db.models import Avg
 from rest_framework import serializers
-
 from reviews.models import Category, Comment, Genre, Review, Title
 
 
