@@ -57,7 +57,7 @@ jobs:
             docker pull ${{ secrets.DOCKER_USERNAME }}/infra:latest
             docker-compose down -v 
             docker-compose rm web
-            docker system prune
+            docker system prune -f
             echo DB_ENGINE=${{ secrets.DB_ENGINE }} > .env
             echo DB_NAME=${{ secrets.DB_NAME }} >> .env
             echo POSTGRES_USER=${{ secrets.POSTGRES_USER }} >> .env
