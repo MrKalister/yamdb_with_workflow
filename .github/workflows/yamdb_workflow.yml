@@ -40,7 +40,7 @@ jobs:
       with:
         context: api_yamdb/
         push: true
-        tags: kalister/infra_project:latest
+        tags: kalister/infra:latest
   deploy:
     runs-on: ubuntu-latest
     needs: build_image_and_push_to_docker_hub
@@ -54,7 +54,7 @@ jobs:
         passphrase: ${{ secrets.PASSPHRASE }}
         script: |
             sudo usermod -aG docker ${{ secrets.USER }}
-            docker pull ${{ secrets.DOCKER_USERNAME }}/infra_project:latest
+            docker pull ${{ secrets.DOCKER_USERNAME }}/infra:latest
             docker-compose stop
             docker-compose rm web
             echo DB_ENGINE=${{ secrets.DB_ENGINE }} > .env
