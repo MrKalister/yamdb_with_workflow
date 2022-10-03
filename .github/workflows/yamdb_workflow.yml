@@ -53,9 +53,10 @@ jobs:
         key: ${{ secrets.SSH_KEY }}
         passphrase: ${{ secrets.PASSPHRASE }}
         script: |
-            sudo docker pull ${{ secrets.DOCKER_USERNAME }}/infra:latest
-            sudo docker-compose stop
-            sudo docker-compose rm web
+            sudo usermod -aG docker ${{ secrets.USER }}
+            docker pull ${{ secrets.DOCKER_USERNAME }}/infra:latest
+            docker-compose stop
+            docker-compose rm web
             echo DB_ENGINE=${{ secrets.DB_ENGINE }} > .env
             echo DB_NAME=${{ secrets.DB_NAME }} >> .env
             echo POSTGRES_USER=${{ secrets.POSTGRES_USER }} >> .env
@@ -63,8 +64,9 @@ jobs:
             echo DB_HOST=${{ secrets.DB_HOST }} >> .env
             echo DB_PORT=${{ secrets.DB_PORT }} >> .env
             echo SECRET_KEY=${{ secrets.SECRET_KEY }} >> .env
-            sudo docker-compose up -d
-            sudo docker-compose exec web bash
+            docker-compose up -d
+            docker-compose exec web python manage.py makemigrations
+            docker-compose exec web python manage.py migrate
   send_message:
     runs-on: ubuntu-latest
     needs: deploy
