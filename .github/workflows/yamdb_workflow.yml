@@ -53,7 +53,7 @@ jobs:
         key: ${{ secrets.SSH_KEY }}
         passphrase: ${{ secrets.PASSPHRASE }}
         script: |
-            sudo usermod -aG docker kalister
+            sudo usermod -aG docker ${{ secrets.USER }}
             docker pull ${{ secrets.DOCKER_USERNAME }}/infra:latest
             docker-compose stop
             docker-compose rm web
@@ -65,8 +65,9 @@ jobs:
             echo DB_PORT=${{ secrets.DB_PORT }} >> .env
             # echo SECRET_KEY=${{ secrets.SECRET_KEY }} >> .env
             docker-compose up -d
-            # docker-compose exec web python manage.py makemigrations
-            # docker-compose exec web python manage.py migrate
+            docker-compose exec web bash
+            python manage.py makemigrations
+            python manage.py migrate
   send_message:
     runs-on: ubuntu-latest
     needs: deploy
