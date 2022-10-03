@@ -1,7 +1,6 @@
 # REST API Yamdb – база отзывов пользователей о медиа произведениях-книги,фильмы,музыка.
 ![Build Status](https://github.com/Strannik1922/yamdb_final/actions/workflows/yamdb_workflow.yml/badge.svg)
 ## Технологический стек:
-![Django-app workflow](https://github.com/needred/yamdb_final/actions/workflows/yamdb_workflow.yml/badge.svg)
 [![Python](https://img.shields.io/badge/-Python-464646?style=flat&logo=Python&logoColor=56C0C0&color=008080)](https://www.python.org/)
 [![Django](https://img.shields.io/badge/-Django-464646?style=flat&logo=Django&logoColor=56C0C0&color=008080)](https://www.djangoproject.com/)
 [![Django REST Framework](https://img.shields.io/badge/-Django%20REST%20Framework-464646?style=flat&logo=Django%20REST%20Framework&logoColor=56C0C0&color=008080)](https://www.django-rest-framework.org/)
@@ -22,7 +21,7 @@
 * send_message - Отправка уведомления в Telegram
 
 ### Подготовительные процедуры для запуска workflow
-1. Создать и активировать виртуальное окружение, обновите pip:
+1. Создайте и активируйте виртуальное окружение, обновите pip:
 ```
 python3 -m venv venv
 source venv/Scripts/activate
@@ -48,7 +47,7 @@ PASSPHRASE - кодовая фраза для ssh-ключа(если созда
 DB_ENGINE - django.db.backends.postgresql
 DB_NAME - postgres (по умолчанию)
 POSTGRES_USER - postgres (по умолчанию)
-POSTGRES_PASSWORD - postgres (по умолчанию)
+POSTGRES_PASSWORD - 12345 (по умолчанию)
 DB_HOST - db
 DB_PORT - 5432
 SECRET_KEY - секретный ключ приложения django (необходимо чтобы были экранированы или отсутствовали скобки)
@@ -63,7 +62,7 @@ git push
 ```
 Автоматически выполняется блок команд jobs (см. Возможности Workflow)
 
-## Описание:
+## Описание проекта:
 Реализован пользовательский функционал дающий возможность пользоваться приложением не посещая сайт:
 1.	Пользовательские роли:
    * Аноним — может просматривать описания произведений, читать отзывы и комментарии.
@@ -102,6 +101,7 @@ git clone https://github.com/MrKalister/yamdb_final.git
 cd yamdb_final/infra
 ```
 3. Добавьте пользователя в группу docker:
+Данное шаг можно пропустить, в таком случае в начале каждой команды необходимо указывать "sudo"
 ```
 sudo usermod -aG docker username
 ```
@@ -129,8 +129,9 @@ SECRET_KEY=12345 # секретный ключ от проекта Django
 cp .env_example .env
 ```
 8. В папке проекта создайте образ:
+Укажите username вашего акаунта на DockerHub, название образа и тег(опционально).
 ```
-docker build -t username/imagename:version api_yamdb/.
+docker build -t <username>/<imagename>:<tag>.
 ```
 9. Соберите контейнеры:
 ```
@@ -140,7 +141,7 @@ docker-compose -f infra/docker-compose.yaml up -d --build
 ```
 docker-compose up -d --build
 ```
-Для входа внутрь контейнера с проектом используйте команду `exec`:
+10. Войдите в контейнер:
 ```
 docker-compose exec web bash
 ```
@@ -159,39 +160,44 @@ python manage.py createsuperuser
 ```
 ssh username@server_address
 ```
-2. Установите Docker и Docker-compose:
+2. Добавьте пользователя в группу docker:
+Данное шаг можно пропустить, в таком случае в начале каждой команды необходимо указывать "sudo"
 ```
-sudo apt install docker.io
-sudo apt-get update
-sudo apt-get install docker-compose-plugin
-sudo apt install docker-compose
+sudo usermod -aG docker username
+```
+3. Установите Docker и Docker-compose:
+```
+apt install docker.io
+apt-get update
+apt-get install docker-compose-plugin
+apt install docker-compose
 docker-compose version
 ```
-3. Создайте на локальном машине конфигурацию `nginx` и перенесите на сервер:
+4. Создайте на локальном машине конфигурацию `nginx` и перенесите на сервер:
 ```
 scp -r nginx username@51.250.110.135:/home/username/
 ```
-4. Создайте на локальном машине файл `docker-compose.yaml` и перенесите на сервер:
+5. Создайте на локальном машине файл `docker-compose.yaml` и перенесите на сервер:
 ```
 scp docker-compose.yaml username@51.250.110.135:/home/username/
 ```
 
 ### После успешного деплоя:
-5. Отобразите список работающих контейнеров:
+1. Отобразите список работающих контейнеров:
 ```
 sudo docker container ls -a
 ```
-6. В списке контейнеров копируйте CONTAINER ID контейнера username/api_yamdb:latest (username - имя пользователя на DockerHub).   
+2. В списке контейнеров копируйте CONTAINER ID контейнера username/api_yamdb:latest (username - имя пользователя на DockerHub).   
 Выполните вход в контейнер:
 ```
 sudo docker exec -it <CONTAINER_ID> bash
 ```
-7. Внутри контейнера выполните миграции:
+3. Внутри контейнера выполните миграции:
 ```
 python manage.py makemigrations
 python manage.py migrate
 ```
-8. Создайте суперпользователя:
+4. Создайте суперпользователя:
 ```
 python manage.py createsuperuser
 ```
