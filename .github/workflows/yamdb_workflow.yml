@@ -53,7 +53,7 @@ jobs:
         key: ${{ secrets.SSH_KEY }}
         passphrase: ${{ secrets.PASSPHRASE }}
         script: |
-            sudo usermod -aG docker ${{ secrets.USER }}
+            sudo usermod -aG docker kalister
             docker pull ${{ secrets.DOCKER_USERNAME }}/infra:latest
             docker-compose stop
             docker-compose rm web
