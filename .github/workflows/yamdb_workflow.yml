@@ -17,14 +17,15 @@ jobs:
           python -m pip install --upgrade pip
           pip install flake8 pep8-naming flake8-broken-line flake8-return flake8-isort
           pip install -r api_yamdb/requirements.txt
-      - name: Test with flake8 and django tests
-        run: |
-          python -m flake8
-          pytest
+      - name: Test with flake8
+        run: python -m flake8
+      - name: Django tests
+        run: pytest
   build_image_and_push_to_docker_hub:
     name: Push Docker image to Docker Hub
     runs-on: ubuntu-latest
     needs: tests
+    if: github.ref == 'refs/heads/master'
     steps:
     - name: Check out the repo
       uses: actions/checkout@v2
@@ -44,6 +45,7 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     needs: build_image_and_push_to_docker_hub
+    if: github.ref == 'refs/heads/master'
     steps:
     - name: executing remote ssh commands to deploy
       uses: appleboy/ssh-action@master
@@ -69,6 +71,7 @@ jobs:
   send_message:
     runs-on: ubuntu-latest
     needs: deploy
+    if: github.ref == 'refs/heads/master'
     steps:
     - name: send message
       uses: appleboy/telegram-action@master
