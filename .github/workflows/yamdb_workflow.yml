@@ -57,7 +57,7 @@ jobs:
         script: |
             sudo usermod -aG docker ${{ secrets.USER }}
             docker pull ${{ secrets.DOCKER_USERNAME }}/infra:latest
-            docker-compose down -v 
+            sudo docker-compose stop
             docker-compose rm web
             docker system prune -f
             echo DB_ENGINE=${{ secrets.DB_ENGINE }} > .env
