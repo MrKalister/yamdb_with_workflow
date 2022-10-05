@@ -57,7 +57,6 @@ jobs:
         script: |
             sudo usermod -aG docker ${{ secrets.USER }}
             docker pull ${{ secrets.DOCKER_USERNAME }}/infra:latest
-            sudo docker-compose stop
             docker-compose down -v 
             docker-compose rm web
             docker system prune -f
