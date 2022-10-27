@@ -1,5 +1,5 @@
 # REST API Yamdb – база отзывов пользователей о медиа произведениях-книги,фильмы,музыка.
-![Build Status](https://github.com/Strannik1922/yamdb_final/actions/workflows/yamdb_workflow.yml/badge.svg)
+![Build Status](https://github.com/MrKalister/yamdb_with_workflow/actions/workflows/yamdb_workflow.yml/badge.svg)
 ## Технологический стек:
 [![Python](https://img.shields.io/badge/-Python-464646?style=flat&logo=Python&logoColor=56C0C0&color=008080)](https://www.python.org/)
 [![Django](https://img.shields.io/badge/-Django-464646?style=flat&logo=Django&logoColor=56C0C0&color=008080)](https://www.djangoproject.com/)
